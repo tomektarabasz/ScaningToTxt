@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using IronOcr;
 
@@ -47,10 +48,24 @@ namespace ScaningToTxt.Controllers
                 RotateAndStraighten = true,
                 ReadBarCodes = true,
                 ColorDepth = 4
-            };        
-            OcrResult results = Ocr.Read(returnFiles);
-            results.SaveAsTextFile(pathToText);
-            Console.WriteLine(results.Text);
+            };
+            List<Task> tasks = new List<Task>();
+            foreach (var file in returnFiles)
+            {                
+                tasks.Add(
+                    Task.Factory.StartNew(() =>
+                    {
+                        OcrResult ocrResult = new OcrResult();
+                        ocrResult = Ocr.Read(file);
+                        string text = ocrResult.Text;
+                        string name =Regex.Match(text,@"FAKTURA NR ([A-Za-z-0-9\/-]+)").Value ;
+                        ocrResult.SaveAsTextFile(pathToText+@"\Faktura nr"+name);
+                        File.Copy(file, pathToText + @"\Faktura nr" + name);
+                    }) 
+                );                
+
+            }
+            Task.WaitAll(tasks.ToArray());            
         }
 
         
