@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using IronOcr;
 using System.IO;
 using ScaningToTxt.Controllers;
-
+using System.Text.RegularExpressions;
 
 namespace ScaningToTxt
 {
@@ -20,6 +20,10 @@ namespace ScaningToTxt
                 "\n i skopiuje skan do folderu \n {2}\n, zmieni im nazwy na odpowiadajace numerowi faktury.\n POWODZENIA! ", findAndPerform.pathToScan, findAndPerform.pathToText, findAndPerform.pathToScanWithName);
 
             findAndPerform.CreateTextFile();
+
+            //string tomek = @"bla bla bla \ toot/mek";
+            //tomek=tomek.Replace(@"\","_");
+            //Console.WriteLine(tomek);
 
             Console.WriteLine("Szczesliwe skonczylem zadanie. Zobacz teraz w folderze \n {0} \n czy sa wszystkie dane",findAndPerform.pathToText);
            

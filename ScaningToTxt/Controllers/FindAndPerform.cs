@@ -58,9 +58,11 @@ namespace ScaningToTxt.Controllers
                         OcrResult ocrResult = new OcrResult();
                         ocrResult = Ocr.Read(file);
                         string text = ocrResult.Text;
-                        string name =Regex.Match(text,@"FAKTURA NR ([A-Za-z-0-9\/-]+)").Value ;
-                        ocrResult.SaveAsTextFile(pathToText+@"\Faktura nr"+name);
-                        File.Copy(file, pathToText + @"\Faktura nr" + name);
+                        string name =Regex.Match(text,@"FAKTURA NR ([A-Za-z-0-9\/-]+)").Value;
+                        name = name.Replace(@"\", "_");
+                        name = name.Replace(@"/", "_");
+                        ocrResult.SaveAsTextFile(pathToText+@"\"+name+".txt");                        
+                        File.Copy(file, pathToScanWithName + @"\" + name+Path.GetExtension(file));
                     }) 
                 );                
 
