@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IronOcr;
+using System.IO;
+using ScaningToTxt.Controllers;
 
 
 namespace ScaningToTxt
@@ -12,8 +14,14 @@ namespace ScaningToTxt
     {
         static void Main(string[] args)
         {
-            string[] paths = { @"C:\Księgowa2019\Skany\Faktura1.jpg" };
-            Console.WriteLine("To jest argument args[0]={0}", args[0]);
+            FindAndPerform findAndPerform = new FindAndPerform();
+            Console.WriteLine("Cześć Mamo,\n ten program zaciagnie wszystkie pliki które sa w: \n " +
+                "{0} \n zrobi z nich pliki txt ktore umiesci w \n {1}" +
+                "\n i skopiuje skan do folderu \n {2}\n, zmieni im nazwy na odpowiadajace numerowi faktury.\n POWODZENIA! ", findAndPerform.pathToScan, findAndPerform.pathToText, findAndPerform.pathToScanWithName);
+
+            findAndPerform.CreateTextFile();
+
+            Console.WriteLine("Szczesliwe skonczylem zadanie. Zobacz teraz w folderze \n {0} \n czy sa wszystkie dane",findAndPerform.pathToText);
            
             Console.ReadKey();
         }
